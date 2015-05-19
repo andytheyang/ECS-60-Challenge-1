@@ -16,4 +16,5 @@ void Encoder::encode(const unsigned char *message, const int size,
   unsigned char *encodedMessage, 
     int *encodedSize)
 {
+  
 }  // encode()
