@@ -2,6 +2,8 @@
 #ifndef ENCODER_H
 #define	ENCODER_H
 
+#include "HuffmanNode.h"
+
 class Encoder
 {
 public:
@@ -10,7 +12,7 @@ public:
     unsigned char *encodedMessage, int *encodedSize);
   ~Encoder();
 private:
-
+  void print(HuffmanNode *root);
 };
 
 #endif	/* ENCODER_H */

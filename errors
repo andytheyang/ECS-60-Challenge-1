@@ -1,0 +1,69 @@
+g++ -ansi -Wall -g -c encoder.cpp
+encoder.cpp:1:1: error: expected unqualified-id before ‘/’ token
+ /  Author: Sean Davis
+ ^
+In file included from encoder.cpp:3:0:
+encoder.h:15:14: error: ‘HuffmanNode’ has not been declared
+   void print(HuffmanNode *root);
+              ^
+encoder.cpp: In member function ‘void Encoder::encode(const unsigned char*, int, unsigned char*, int*)’:
+encoder.cpp:37:14: error: ‘HuffmanNode’ was not declared in this scope
+   BinaryHeap<HuffmanNode> heap;
+              ^
+encoder.cpp:37:25: error: template argument 1 is invalid
+   BinaryHeap<HuffmanNode> heap;
+                         ^
+encoder.cpp:37:31: error: invalid type in declaration before ‘;’ token
+   BinaryHeap<HuffmanNode> heap;
+                               ^
+encoder.cpp:43:19: error: expected ‘;’ before ‘ins’
+       HuffmanNode ins((unsigned char)chars, frequency[chars]);
+                   ^
+encoder.cpp:44:12: error: request for member ‘insert’ in ‘heap’, which is of non-class type ‘int’
+       heap.insert(ins);
+            ^
+encoder.cpp:44:19: error: ‘ins’ was not declared in this scope
+       heap.insert(ins);
+                   ^
+encoder.cpp:58:15: error: expected ‘;’ before ‘node’
+   HuffmanNode node;
+               ^
+encoder.cpp:62:10: error: request for member ‘deleteMin’ in ‘heap’, which is of non-class type ‘int’
+     heap.deleteMin(node);
+          ^
+encoder.cpp:62:20: error: ‘node’ was not declared in this scope
+     heap.deleteMin(node);
+                    ^
+encoder.cpp:64:14: error: request for member ‘isEmpty’ in ‘heap’, which is of non-class type ‘int’
+     if (heap.isEmpty())
+              ^
+encoder.cpp:67:17: error: expected ‘;’ before ‘node2’
+     HuffmanNode node2;
+                 ^
+encoder.cpp:68:10: error: request for member ‘deleteMin’ in ‘heap’, which is of non-class type ‘int’
+     heap.deleteMin(node2);
+          ^
+encoder.cpp:68:20: error: ‘node2’ was not declared in this scope
+     heap.deleteMin(node2);
+                    ^
+encoder.cpp:69:17: error: expected ‘;’ before ‘t’
+     HuffmanNode t(&node, &node2);
+                 ^
+encoder.cpp:70:10: error: request for member ‘insert’ in ‘heap’, which is of non-class type ‘int’
+     heap.insert(t);
+          ^
+encoder.cpp:70:17: error: ‘t’ was not declared in this scope
+     heap.insert(t);
+                 ^
+encoder.cpp:74:10: error: ‘node’ was not declared in this scope
+   print(&node);
+          ^
+encoder.cpp: At global scope:
+encoder.cpp:77:21: error: variable or field ‘print’ declared void
+ void Encoder::print(HuffmanNode *root)
+                     ^
+encoder.cpp:77:21: error: ‘HuffmanNode’ was not declared in this scope
+encoder.cpp:77:34: error: ‘root’ was not declared in this scope
+ void Encoder::print(HuffmanNode *root)
+                                  ^
+make: *** [encoder.o] Error 1
