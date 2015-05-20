@@ -8,8 +8,9 @@ class HuffmanNode
 public:
   unsigned char data;
   unsigned int frequency;
-  HuffmanNode *left = NULL;
-  HuffmanNode *right = NULL;
+  HuffmanNode *left;
+  HuffmanNode *right;
+  bool isLeaf;
 
   HuffmanNode();
   HuffmanNode(unsigned char dat, unsigned int freq);

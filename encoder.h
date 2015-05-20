@@ -3,6 +3,7 @@
 #define	ENCODER_H
 
 #include "HuffmanNode.h"
+#include "BinaryHeap.h"
 
 class Encoder
 {
@@ -12,7 +13,11 @@ public:
     unsigned char *encodedMessage, int *encodedSize);
   ~Encoder();
 private:
-  void print(HuffmanNode *root);
+  void getHeap(const unsigned char *message, const int size,
+               BinaryHeap<HuffmanNode *> &heap) const;
+  HuffmanNode *getTree(BinaryHeap<HuffmanNode *> &heap);
+  void print(HuffmanNode *root) const;
+  void printHeap(BinaryHeap<HuffmanNode *> heap) const;
 };
 
 #endif	/* ENCODER_H */

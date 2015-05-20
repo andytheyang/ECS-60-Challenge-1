@@ -19,9 +19,8 @@ Encoder::~Encoder()
 {
 } // ~Encoder()
 
-void Encoder::encode(const unsigned char *message, const int size, 
-  unsigned char *encodedMessage, 
-    int *encodedSize)
+void Encoder::getHeap(const unsigned char *message, const int size,
+                      BinaryHeap<HuffmanNode *> &heap) const
 {
   unsigned int frequency[256] = {0};
 
@@ -30,60 +29,79 @@ void Encoder::encode(const unsigned char *message, const int size,
     frequency[message[i]]++;
   }  // for each character
 
-// prints freqlist
+//  prints freqlist
 //  for (int i = 0; i < 256; i++)
 //    cout << (char)i << ": " << frequency[i] << endl;
-
-  BinaryHeap<HuffmanNode> heap;
 
   for (int chars = 0; chars < 256; chars++)
   {
     if (frequency[chars] != 0)
     {
-      HuffmanNode ins((unsigned char)chars, frequency[chars]);
+      HuffmanNode *ins = new HuffmanNode((unsigned char)chars, frequency[chars]);
       heap.insert(ins);
     }  // if character is in file, add to heap
   }  // for freqlist
 
-/*  while (!heap.isEmpty())
-  {
-    HuffmanNode next;
-    heap.deleteMin(next);
-    cout << next.data << " " << next.frequency << endl;
-  }
-
   return;
-*/
+}  // getHeap()
 
-  HuffmanNode node;
+
+HuffmanNode *Encoder::getTree(BinaryHeap<HuffmanNode *> &heap)
+{
+  HuffmanNode *node;
 
   while (true)
   {
-    heap.deleteMin(node);
+    node = heap.findMin();
+    heap.deleteMin();
 
     if (heap.isEmpty())
       break;
 
-    HuffmanNode node2;
-    heap.deleteMin(node2);
-    HuffmanNode t(&node, &node2);
+    HuffmanNode *node2 = heap.findMin();
+    heap.deleteMin();
+//    cout << "tying " << node->data << " and " << node2->data << endl;
+    HuffmanNode *t = new HuffmanNode(node, node2);
     heap.insert(t);
   }  // while
 
+  return node;
+}
+
+void Encoder::encode(const unsigned char *message, const int size, 
+  unsigned char *encodedMessage, 
+    int *encodedSize)
+{
+  BinaryHeap<HuffmanNode *> heap;
+  getHeap(message, size, heap);
+  HuffmanNode *root = getTree(heap);
+
   // node is root of tree
-  print(&node);
+  print(root);
 }  // encode()
 
-void Encoder::print(HuffmanNode *root)
+void Encoder::print(HuffmanNode *root) const
 {
-  if (root->left == NULL || root->right == NULL)
+  if (root->isLeaf)
   {
     cout << " is " << root->data << endl;
     return;
   }
 
-//  cout << 0;
+  cout << 0;
   print(root->left);
-//  cout << 1;
+  cout << 1;
   print(root->right);
 }  // print
+
+void Encoder::printHeap(BinaryHeap<HuffmanNode *> heap) const
+{
+  while (!heap.isEmpty())
+  {
+    HuffmanNode *next;
+    heap.deleteMin(next);
+    cout << next->data << " " << next->frequency << endl;
+  }
+
+  return;
+}
