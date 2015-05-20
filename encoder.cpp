@@ -7,6 +7,7 @@
 #include "dsexceptions.h"
 #include "vector.h"
 #include "HuffmanNode.h"
+#include "StackAr.h"
 
 using namespace std;
 
@@ -18,6 +19,20 @@ Encoder::Encoder()
 Encoder::~Encoder()
 {
 } // ~Encoder()
+
+void Encoder::encode(const unsigned char *message, const int size, 
+  unsigned char *encodedMessage, 
+    int *encodedSize)
+{
+  BinaryHeap<HuffmanNode *> heap;		// to store nodes
+  getHeap(message, size, heap);			// create the heap
+  HuffmanNode *root = getTree(heap);		// return the node to root of completed tree
+  StackAr<char> currKey;			// for remembering key (size can be changed)
+  StackAr<char> arr[256];			// key for value
+  getHuffList(root, currKey, arr);
+}  // encode()
+
+// PRIVATE ----------------------------------------------------------------------
 
 void Encoder::getHeap(const unsigned char *message, const int size,
                       BinaryHeap<HuffmanNode *> &heap) const
@@ -68,17 +83,34 @@ HuffmanNode *Encoder::getTree(BinaryHeap<HuffmanNode *> &heap)
   return node;
 }
 
-void Encoder::encode(const unsigned char *message, const int size, 
-  unsigned char *encodedMessage, 
-    int *encodedSize)
+void Encoder::getHuffList(HuffmanNode *root, StackAr<char> &currKey, StackAr<char> *arr)
 {
-  BinaryHeap<HuffmanNode *> heap;
-  getHeap(message, size, heap);
-  HuffmanNode *root = getTree(heap);
+  // TODO: make this work
+  if (root->isLeaf)
+  {
+//    arr[root->data] = currKey;
+    cout << root->data << " is ";
+    StackAr<char> other = currKey;
 
-  // node is root of tree
-  print(root);
-}  // encode()
+    while(!other.isEmpty())
+    {
+      cout << other.topAndPop();
+    }  // while there are more things
+
+    cout << endl;
+    return;
+  }  // if root is a leaf (char)
+
+  currKey.push('0');
+  getHuffList(root->left, currKey, arr);
+
+  currKey.push('1');
+  getHuffList(root->right, currKey, arr);
+  currKey.pop();
+  return;
+}
+
+// PRINT ------------------------------------------------------
 
 void Encoder::print(HuffmanNode *root) const
 {
