@@ -24,7 +24,7 @@ void Encoder::encode(const unsigned char *message, const int size,
   unsigned char *encodedMessage, 
     int *encodedSize)
 {
-  BinaryHeap<HuffmanNode *> heap;		// to store nodes
+  BinaryHeap<HuffmanNode *> heap(512);		// to store nodes
   getHeap(message, size, heap);			// create the heap
   HuffmanNode *root = getTree(heap);		// return the node to root of completed tree
   StackAr<char> currKey;			// for remembering key (size can be changed)
@@ -67,16 +67,15 @@ HuffmanNode *Encoder::getTree(BinaryHeap<HuffmanNode *> &heap)
 
   while (true)
   {
-    node = heap.findMin();
-    heap.deleteMin();
+    heap.deleteMin(node);
 
     if (heap.isEmpty())
       break;
 
-    HuffmanNode *node2 = heap.findMin();
-    heap.deleteMin();
-//    cout << "tying " << node->data << " and " << node2->data << endl;
+    HuffmanNode *node2;
+    heap.deleteMin(node2);
     HuffmanNode *t = new HuffmanNode(node, node2);
+    cout << t->left->data << " - " << t->data << " - " << t->right->data << endl;
     heap.insert(t);
   }  // while
 
@@ -103,6 +102,7 @@ void Encoder::getHuffList(HuffmanNode *root, StackAr<char> &currKey, StackAr<cha
 
   currKey.push('0');
   getHuffList(root->left, currKey, arr);
+  currKey.pop();
 
   currKey.push('1');
   getHuffList(root->right, currKey, arr);

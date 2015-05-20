@@ -17,6 +17,7 @@ HuffmanNode::HuffmanNode(unsigned char dat, unsigned int freq) : data(dat), freq
 
 HuffmanNode::HuffmanNode(HuffmanNode *l, HuffmanNode *r) : left(l), right(r), isLeaf(false)
 {
+  data = 't';
   frequency = l->frequency + r->frequency;
 }  // for char
 
@@ -27,6 +28,13 @@ HuffmanNode::~HuffmanNode()
 
 bool HuffmanNode::operator<(const HuffmanNode &rhs) const
 {
-  return (frequency < rhs.frequency);
+//  return (frequency < rhs.frequency);
+  return (frequency > rhs.frequency);		// LOOOL
 }  // less than operator
 
+/*
+friend ostream& operator<<(ostream &os, HuffmanNode const &rhs)
+{
+  os << rhs->left->data << " - " << rhs->data << " - " << rhs->right->data << endl;
+}  // operator<<
+*/

@@ -2,6 +2,9 @@
 #define NODE_H
 
 #include <cstdlib>
+#include <iostream>
+
+using namespace std;
 
 class HuffmanNode
 {
@@ -18,6 +21,7 @@ public:
   ~HuffmanNode();
 
   bool operator<(const HuffmanNode &rhs) const;
+//  friend ostream& operator<<(ostream &os, HuffmanNode const &rhs);
 };  // Node
 
 #endif
