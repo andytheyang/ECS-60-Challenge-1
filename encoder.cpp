@@ -26,7 +26,7 @@ void Encoder::encode(const unsigned char *message, const int size,
 {
   BinaryHeap <HuffmanNode *> heap(512);		// to store nodes
   getHeap(message, size, heap);			// create the heap
-  printHeap(heap);
+//  printHeap(heap);
   HuffmanNode *root = getTree(heap);		// return the node to root of completed tree
   StackAr<char> currKey;			// for remembering key (size can be changed)
   StackAr<char> arr[256];			// key for value
