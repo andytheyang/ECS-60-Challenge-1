@@ -24,8 +24,9 @@ void Encoder::encode(const unsigned char *message, const int size,
   unsigned char *encodedMessage, 
     int *encodedSize)
 {
-  BinaryHeap<HuffmanNode *> heap(512);		// to store nodes
+  BinaryHeap <HuffmanNode *> heap(512);		// to store nodes
   getHeap(message, size, heap);			// create the heap
+  printHeap(heap);
   HuffmanNode *root = getTree(heap);		// return the node to root of completed tree
   StackAr<char> currKey;			// for remembering key (size can be changed)
   StackAr<char> arr[256];			// key for value
@@ -69,6 +70,7 @@ HuffmanNode *Encoder::getTree(BinaryHeap<HuffmanNode *> &heap)
   {
     heap.deleteMin(node);
 
+    cout << "min is " << node->data << endl;
     if (heap.isEmpty())
       break;
 
@@ -89,14 +91,7 @@ void Encoder::getHuffList(HuffmanNode *root, StackAr<char> &currKey, StackAr<cha
   {
 //    arr[root->data] = currKey;
     cout << root->data << " is ";
-    StackAr<char> other = currKey;
-
-    while(!other.isEmpty())
-    {
-      cout << other.topAndPop();
-    }  // while there are more things
-
-    cout << endl;
+    printStack(currKey);
     return;
   }  // if root is a leaf (char)
 
@@ -112,7 +107,7 @@ void Encoder::getHuffList(HuffmanNode *root, StackAr<char> &currKey, StackAr<cha
 
 // PRINT ------------------------------------------------------
 
-void Encoder::print(HuffmanNode *root) const
+void Encoder::print(const HuffmanNode *root) const
 {
   if (root->isLeaf)
   {
@@ -126,14 +121,26 @@ void Encoder::print(HuffmanNode *root) const
   print(root->right);
 }  // print
 
-void Encoder::printHeap(BinaryHeap<HuffmanNode *> heap) const
+void Encoder::printHeap(const BinaryHeap<HuffmanNode *> heap) const
 {
-  while (!heap.isEmpty())
+  BinaryHeap<HuffmanNode *> copy = heap;
+  while (!copy.isEmpty())
   {
     HuffmanNode *next;
-    heap.deleteMin(next);
+    copy.deleteMin(next);
     cout << next->data << " " << next->frequency << endl;
   }
 
   return;
 }
+
+void Encoder::printStack(const StackAr<char> stack) const
+{
+  StackAr<char> copy = stack;
+  while (!copy.isEmpty())
+  {
+    cout << copy.topAndPop();
+  }  // while there are more things in the stack
+  cout << endl;
+  return;
+}  // printStack()

@@ -19,6 +19,7 @@ HuffmanNode::HuffmanNode(HuffmanNode *l, HuffmanNode *r) : left(l), right(r), is
 {
   data = 't';
   frequency = l->frequency + r->frequency;
+//  cout << "t created with size " << frequency << endl;
 }  // for char
 
 
@@ -28,8 +29,8 @@ HuffmanNode::~HuffmanNode()
 
 bool HuffmanNode::operator<(const HuffmanNode &rhs) const
 {
-//  return (frequency < rhs.frequency);
-  return (frequency > rhs.frequency);		// LOOOL
+  cout << "less than called " << endl;
+  return (frequency < rhs.frequency);
 }  // less than operator
 
 /*

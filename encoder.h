@@ -18,8 +18,9 @@ private:
                BinaryHeap<HuffmanNode *> &heap) const;
   HuffmanNode *getTree(BinaryHeap<HuffmanNode *> &heap);
   void getHuffList(HuffmanNode *root, StackAr<char> &currKey, StackAr<char> *arr);
-  void print(HuffmanNode *root) const;
-  void printHeap(BinaryHeap<HuffmanNode *> heap) const;
+  void print(const HuffmanNode *root) const;
+  void printHeap(const BinaryHeap<HuffmanNode *> heap) const;
+  void printStack(const StackAr<char> stack) const;
 };
 
 #endif	/* ENCODER_H */
