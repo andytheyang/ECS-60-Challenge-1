@@ -46,9 +46,13 @@ void getHuffList(HuffmanNode *root, StackAr<char> &currKey, StackAr<char> *arr)
   if (root->isLeaf)
   {
 //    arr[root->data] = currKey;
-//    cout << root->data << " is ";
+// TODO: comment this
+    cout << root->data << " is ";
     StackAr<char> key = flipStack(currKey);
-//    printStack(key);
+    arr[root->data] = key;
+// TODO: comment this
+    printStack(key);
+    cout << endl;
     return;
   }  // if root is a leaf (char)
 
@@ -97,7 +101,7 @@ void printStack(const StackAr<char> stack)
   {
     cout << copy.topAndPop();
   }  // while there are more things in the stack
-  cout << endl;
+//  cout << endl;
   return;
 }  // printStack()
 

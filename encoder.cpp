@@ -5,6 +5,7 @@
 #include <sstream>
 #include <cstring>
 #include <cassert>
+#include <bitset>
 #include "BinaryHeap.h"
 #include "dsexceptions.h"
 #include "vector.h"
@@ -34,14 +35,21 @@ void Encoder::encode(const unsigned char *message, const int size,
   getHeap(message, size, heap, elements);	// create the heap
 //  printHeap(heap);
 //  cout << "there are " << elements << " elements" << endl;
-  writeHeap(out, heap, elements, encodedSize);	// writes heap (hopefully)
-  cout << (const unsigned char *) out.str().c_str();
+  writeHeap(out, heap, elements);		// writes heap (hopefully)
+  int start = *encodedSize;
+  const unsigned char *heapStr = (const unsigned char *)out.str().c_str();
+  *encodedSize += sizeof(int) + elements * (sizeof(char) + sizeof(int));
+  for (int i = start; i < *encodedSize; i++)
+  {
+    encodedMessage[i] = heapStr[i - start];
+  }
+  unsigned char *s = (unsigned char *)out.str().c_str();
+//  cout << (const unsigned char *) out.str().c_str();
   HuffmanNode *root = getTree(heap);		// return the node to root of completed tree
   StackAr<char> currKey(STACK_SIZE);		// for remembering key (size can be changed)
   StackAr<char> arr[256];			// key for value
   getHuffList(root, currKey, arr);
-
-
+  writeMesg(message, size, encodedMessage, encodedSize, arr);
 }  // encode()
 
 
@@ -70,25 +78,48 @@ void Encoder::getHeap(const unsigned char *message, const int size,
   return;
 }  // getHeap()
 
-void Encoder::writeHeap(stringstream &out, BinaryHeap<HuffmanNode *> heap, int elements, int *csize) const
+void Encoder::writeHeap(stringstream &out, BinaryHeap<HuffmanNode *> heap, int elements) const
 {
   out << elements;	// store how many heap elements at beginning
-//  *csize += sizeof(int);
 
   HuffmanNode *node;	// to store temporary node
   while(!heap.isEmpty())
   {
     heap.deleteMin(node);
-//    cout << "writing " << node->data;
     out << node->data;
-//    *csize += sizeof(unsigned char);
     out << node->frequency;
-//    *csize += sizeof(unsigned int);
   }  // traverse the entire heap
 
   return;
 }  // writeHeap()
 
+
+void Encoder::writeMesg(const unsigned char *message, const int size, 
+               unsigned char *encodedMessage, int *encodedSize,
+               const StackAr<char> arr[256]) const
+{
+  bitset<8> bits;
+  int curPos = 0;
+
+  for (int i = 0; i < size; i++)
+  {
+    StackAr<char> key = arr[message[i]];
+//    printStack(key);
+    while (!key.isEmpty())
+    {
+      bits[curPos++] = (key.topAndPop() == '1');
+      if (curPos == 8)
+      {
+        encodedMessage[*encodedSize] = *bits.to_string().c_str();
+
+        (*encodedSize)++;
+        curPos = 0;
+//        cout << "size of mesg is " << *encodedSize << endl;
+      }
+    }
+  }
+  cout << endl;
+}  // writeMesg()
 
 /*
 HuffmanNode *Encoder::getTree(BinaryHeap<HuffmanNode *> &heap)
