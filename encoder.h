@@ -5,6 +5,10 @@
 #include "HuffmanNode.h"
 #include "BinaryHeap.h"
 #include "StackAr.h"
+#include <iostream>
+#include <sstream>
+
+using namespace std;
 
 class Encoder
 {
@@ -15,12 +19,16 @@ public:
   ~Encoder();
 private:
   void getHeap(const unsigned char *message, const int size,
-               BinaryHeap<HuffmanNode *> &heap) const;
+               BinaryHeap<HuffmanNode *> &heap, int &elements) const;
+  void writeHeap(stringstream &out, BinaryHeap<HuffmanNode *> heap, int elements, int *csize) const;
+/*
   HuffmanNode *getTree(BinaryHeap<HuffmanNode *> &heap);
   void getHuffList(HuffmanNode *root, StackAr<char> &currKey, StackAr<char> *arr);
-  void print(const HuffmanNode *root) const;
+  StackAr<char> flipStack(StackAr<char> flip) const;
+//  void print(const HuffmanNode *root) const;
   void printHeap(const BinaryHeap<HuffmanNode *> heap) const;
   void printStack(const StackAr<char> stack) const;
+*/
 };
 
 #endif	/* ENCODER_H */

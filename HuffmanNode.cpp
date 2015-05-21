@@ -18,7 +18,7 @@ HuffmanNode::HuffmanNode(unsigned char dat, unsigned int freq) : data(dat), freq
 
 HuffmanNode::HuffmanNode(HuffmanNode *l, HuffmanNode *r) : left(l), right(r), isLeaf(false)
 {
-  data = 't';
+  data = 't';	// TODO: this isn't necessary
   frequency = l->frequency + r->frequency;
 //  cout << "mutual huffmannode" << endl;
 //  cout << "t created with size " << frequency << endl;
